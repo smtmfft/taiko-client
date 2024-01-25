@@ -261,3 +261,15 @@ func TestGenerateSgxQuote(t *testing.T) {
 	_, err = generateSgxQuote(quote)
 	require.Nil(t, err)
 }
+
+func TestEncodeSgxQuoteProof(t *testing.T) {
+	quote, err := hex.DecodeString(sampleQuoteHexStr)
+	require.Nil(t, err)
+
+	encoded, err := EncodeSgxQuoteProof(quote)
+	require.Nil(t, err)
+	require.NotNil(t, encoded)
+
+	hash :=	crypto.Keccak256Hash(encoded)
+	require.Equal(t, hash, common.HexToHash("d28781ffc0eec5601031951546a5a06c57417f95dc1766a884b2b59784d11e7c"))
+}

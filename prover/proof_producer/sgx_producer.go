@@ -102,13 +102,18 @@ func (s *SGXProofProducer) RequestProof(
 		return nil, err
 	}
 
+	packedQuote, err := encoding.EncodeSgxQuoteProof(proof)
+	if err != nil {
+		return nil, err
+	}
+
 	metrics.ProverSgxProofGeneratedCounter.Inc(1)
 
 	return &ProofWithHeader{
 		BlockID: blockID,
 		Header:  header,
 		Meta:    meta,
-		Proof:   proof,
+		Proof:   packedQuote,
 		Degree:  0,
 		Opts:    opts,
 		Tier:    s.Tier(),

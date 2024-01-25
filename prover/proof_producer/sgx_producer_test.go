@@ -7,6 +7,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/stretchr/testify/require"
 
 	"github.com/taikoxyz/taiko-client/bindings"
@@ -49,5 +50,5 @@ func TestSGXProducerRequestProof(t *testing.T) {
 	require.Equal(t, res.BlockID, blockID)
 	require.Equal(t, res.Header, header)
 	require.Equal(t, res.Tier, encoding.TierSgxID)
-	require.NotEmpty(t, res.Proof)
+	require.Equal(t, crypto.Keccak256(res.Proof), common.Hex2Bytes("d28781ffc0eec5601031951546a5a06c57417f95dc1766a884b2b59784d11e7c"))
 }
